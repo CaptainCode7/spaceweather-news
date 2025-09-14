@@ -1,12 +1,81 @@
-# tutorial-1
+# Spaceweather News Website
 VS Code + Copilot + Next.js + AWS CDK Starter
 
-A minimal, batteries-included starter for a 90-minute hands-on tutorial.
+A minimal, batteries-included starter project.
 You’ll spin up a Next.js app locally, deploy a tiny serverless API with AWS CDK, and wire the two together—while learning practical Copilot workflows.
 
 ## Contents
 
-* [`/nextjs-app`](#nextjs-app) — Next.js 15+ (App Router) skeleton
+* [`/nextjs-app`](#nextjs-app) — Next.js 15+ (App Route## What's Next
+
+This project now includes:
+
+### ✅ Authentication (AWS Cognito + NextAuth)
+- User registration and login via AWS Cognito
+- Protected routes and pages
+- Session management with NextAuth
+- Environment-based configuration
+
+### ✅ Environment-based Configuration
+- Separate configs for development, staging, and production
+- Environment variables for different deployment targets
+- Configurable API throttling and CORS settings
+
+### ✅ CI/CD Pipeline (GitHub Actions)
+- Automated testing and linting
+- Multi-environment deployments
+- Manual approval gates for production
+- Dependency caching for faster builds
+
+### ✅ CDK Pipeline (Optional)
+- AWS-native CI/CD solution
+- Self-mutating pipeline
+- Advanced deployment strategies
+- Integration with AWS CodePipeline
+
+### Getting Started with New Features
+
+1. **Set up Authentication**:
+   ```bash
+   # Deploy auth stack
+   cd cdk
+   export ENVIRONMENT=development
+   pnpm cdk deploy SpaceweatherAuthStack-development
+   
+   # Configure environment variables
+   cd ../nextjs-app
+   cp .env.example .env.local
+   # Edit .env.local with your Cognito values
+   ```
+
+2. **Configure CI/CD**:
+   ```bash
+   # Add GitHub secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+   # Add GitHub variables: AWS_REGION, AWS_ACCOUNT_ID
+   # Push to develop branch to trigger dev deployment
+   ```
+
+3. **Deploy CDK Pipeline** (optional):
+   ```bash
+   cd cdk
+   pnpm cdk deploy SpaceweatherPipelineStack \
+     -c deploy-pipeline=true \
+     -c repo-owner=your-username \
+     -c repo-name=tutorial-1
+   ```
+
+### Documentation
+
+- [Authentication Setup Guide](docs/AUTHENTICATION.md)
+- [CI/CD Pipeline Documentation](docs/CI-CD.md)
+
+### Next Steps
+
+- Add custom domain and SSL certificates
+- Implement email templates for Cognito
+- Set up monitoring and alerting
+- Add more sophisticated space weather features
+- Implement user preferences and notificationseleton
 * [`/cdk`](#cdk) — AWS CDK v2 (TypeScript) skeleton deploying API Gateway + Lambda
 * [Prereqs](#prerequisites)
 * [Install AWS CLI](#install-aws-cli)
@@ -245,6 +314,8 @@ pnpm cdk bootstrap
 # Deploy the stack
 pnpm cdk deploy
 # Note the ApiUrl output, e.g. https://abc123.execute-api.us-east-1.amazonaws.com/prod/
+# CdkStack.ApiUrl = https://y9v4y0rm39.execute-api.us-east-2.amazonaws.com/prod/
+# CdkStack.HttpApiEndpoint9EC6E18F = https://y9v4y0rm39.execute-api.us-east-2.amazonaws.com/prod/
 ```
 
 **Suggested `package.json` scripts (cdk/package.json):**
