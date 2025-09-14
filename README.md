@@ -2,7 +2,7 @@
 
 **Real-time Space Weather Data & Alert Platform**
 
-A production-ready Next.js application with AWS serverless infrastructure for monitoring solar activity, geomagnetic conditions, and space weather events. Built with enterprise-grade authentication, multi-environment CI/CD, and scalable cloud architecture.
+A modern Next.js application with AWS serverless infrastructure for monitoring solar activity, geomagnetic conditions, and space weather events. Built with scalable cloud architecture and automated CI/CD deployment.
 
 [![Deploy to AWS](https://img.shields.io/badge/Deploy-AWS-orange.svg)](https://github.com/CaptainCode7/spaceweather-news)
 [![Next.js](https://img.shields.io/badge/Next.js-15+-black.svg)](https://nextjs.org/)
@@ -11,40 +11,44 @@ A production-ready Next.js application with AWS serverless infrastructure for mo
 
 ## 🌟 Features
 
-### ✅ Production Infrastructure
-- **Authentication**: AWS Cognito + NextAuth v5 for secure user management
-- **Multi-Environment**: Separate configs for development, staging, and production
+### ✅ Current Implementation
+- **Interactive Dashboard**: Real-time space weather monitoring interface
+- **Space Weather Data**: Solar activity cards, geomagnetic monitoring, and alerts
+- **API Integration**: Ready-to-use endpoints for space weather data
+- **Multi-Environment**: Separate configurations for development, staging, and production
 - **CI/CD Pipeline**: GitHub Actions with automated testing and deployment
-- **CDK Pipeline**: AWS-native infrastructure as code with self-mutating deployments
-- **Monitoring**: CloudWatch integration and error tracking
+- **AWS Infrastructure**: CDK-based infrastructure as code
+- **Responsive Design**: Modern UI with Tailwind CSS and Lucide icons
 
 ### 🔄 Current Space Weather Features
-- **Authentication System**: AWS Cognito + NextAuth integration
-- **User Management**: Protected routes and user dashboard
-- **API Infrastructure**: RESTful endpoints ready for space weather data integration
-- **Real-time Updates**: WebSocket-ready infrastructure for live data streaming
+- **Dashboard**: Interactive space weather monitoring interface
+- **Solar Activity**: Real-time solar flare and solar wind monitoring
+- **Geomagnetic Activity**: K-index tracking and storm warnings
+- **Space Weather Alerts**: Active alerts and warning system
+- **Activity Charts**: Historical trend visualization
+- **API Testing**: Built-in API testing interface
 
-### 🚀 Planned Space Weather Features
-- **Real-time Data**: Live solar activity and geomagnetic monitoring via NOAA APIs
-- **Interactive Dashboard**: Visual charts and graphs for space weather parameters
-- **Alert System**: Customizable notifications for space weather events
+### 🚀 Planned Enhancements
+- **Real-time Data**: Live integration with NOAA space weather APIs
+- **Advanced Alerts**: Email/SMS notifications for critical events
+- **Historical Analysis**: Long-term trend analysis and solar cycle tracking
+- **Mobile App**: Progressive Web App capabilities
+- **User Customization**: Personalized dashboard and alert preferences
 - **Historical Analysis**: Long-term trend analysis and solar cycle tracking
 - **Multi-Platform**: Web dashboard + mobile notifications
 
 ## 🏗️ Architecture
 
 ```
-
-                    Production Architecture                   
-──
-  Frontend: Next.js 15 (App Router) + TypeScript            
-  Authentication: AWS Cognito + NextAuth                    
-  Backend: AWS Lambda + API Gateway                         
-│  Database: DynamoDB (NoSQL)                               
-  Infrastructure: AWS CDK v2                               
-  CI/CD: GitHub Actions + AWS CodePipeline                 
-  Monitoring: CloudWatch + X-Ray                           
-─
+                    Current Architecture                   
+┌──────────────────────────────────────────────────────┐
+│  Frontend: Next.js 15 (App Router) + TypeScript      │
+│  Styling: Tailwind CSS + Lucide Icons               │
+│  Backend: AWS Lambda + API Gateway                   │
+│  Infrastructure: AWS CDK v2                         │
+│  CI/CD: GitHub Actions                              │
+│  Monitoring: CloudWatch                             │
+└──────────────────────────────────────────────────────┘
 ```
 
 ## 🚀 Quick Start
@@ -65,7 +69,7 @@ cd nextjs-app && pnpm install
 cd ../cdk && pnpm install
 ```
 
-### 2. Deploy Authentication Stack
+### 2. Deploy Infrastructure
 ```bash
 cd cdk
 export ENVIRONMENT=development  # or staging/production
@@ -73,15 +77,15 @@ export ENVIRONMENT=development  # or staging/production
 # Bootstrap CDK (one-time per AWS account/region)
 pnpm cdk bootstrap
 
-# Deploy authentication infrastructure
-pnpm cdk deploy SpaceweatherAuthStack-${ENVIRONMENT}
+# Deploy the infrastructure
+pnpm cdk deploy
 ```
 
 ### 3. Configure Environment
 ```bash
 cd ../nextjs-app
 cp .env.example .env.local
-# Edit .env.local with your Cognito User Pool details from CDK output
+# Edit .env.local with your API Gateway URL from CDK output
 ```
 
 ### 4. Run Development Server
@@ -93,52 +97,49 @@ pnpm dev
 ## Development Workflow
 
 ### Phase 1: Current Implementation Status ✅
-- **Authentication**: AWS Cognito + NextAuth.js integration
-- **Infrastructure**: Multi-environment CDK deployment pipeline
-- **CI/CD**: GitHub Actions with automated testing and deployment
 - **Frontend**: Next.js 15 with App Router and TypeScript
-- **API Foundation**: RESTful endpoints with AWS Lambda functions
+- **Dashboard**: Interactive space weather monitoring interface
+- **Components**: Reusable UI components for space weather data
+- **Infrastructure**: CDK-based AWS deployment
+- **CI/CD**: GitHub Actions with automated testing and deployment
 
-### Phase 2: Space Weather Integration (In Progress)
-- **NOAA API Integration**: Solar activity data collection
-- **Data Processing**: Real-time space weather event monitoring
-- **Visualization Components**: Interactive charts and alerts
-- **Notification System**: Critical event alerting
+### Phase 2: Live Data Integration (In Progress)
+- **NOAA API Integration**: Real-time space weather data collection
+- **Data Processing**: Live space weather event monitoring
+- **Enhanced Visualizations**: More detailed charts and historical data
+- **Alert Enhancements**: Real-time notification system
 
 ### Phase 3: Advanced Features (Planned)
 - **Historical Analysis**: Trend analysis and forecasting
-- **User Personalization**: Custom alert preferences
+- **User Customization**: Personal dashboard preferences
 - **Mobile Experience**: Progressive Web App capabilities
-- **Community Features**: Data sharing and discussions
+- **API Extensions**: More comprehensive space weather endpoints
 
 ## Project Structure
 
 ```
 spaceweather-news/
- README.md
- SPACE-WEATHER-ROADMAP.md          # Development phases and features
- Requirements.md                    # Technical specifications
- nextjs-app/                       # Frontend application
-   app/
-     api/
-       space-weather/           # Space weather API endpoints
-       auth/                    # Authentication routes
-     components/                 # Reusable UI components
-     dashboard/                  # Protected dashboard pages
-     auth/                       # Authentication pages
-   src/
-     components/
-       visualization/           # Charts and data displays
-       layout/                  # Layout components
-     hooks/                      # Custom React hooks
-     lib/                        # Utility functions and configs
-   types/                         # TypeScript type definitions
- cdk/                              # AWS Infrastructure
-    lib/
-      auth-stack.ts               # Cognito authentication
-      cdk-stack.ts                # Core infrastructure
-      pipeline-stack.ts           # CI/CD pipeline
-    bin/cdk.ts                     # CDK app entry point
+├── README.md
+├── SPACE-WEATHER-ROADMAP.md          # Development phases and features
+├── Requirements.md                    # Technical specifications
+├── nextjs-app/                       # Frontend application
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── local-echo/           # Example API endpoints
+│   │   ├── components/               # Reusable UI components
+│   │   ├── dashboard/                # Space weather dashboard
+│   │   └── page.tsx                  # Home page
+│   ├── src/
+│   │   └── components/
+│   │       ├── dashboard/            # Dashboard components
+│   │       └── ui/                   # UI components
+│   └── types/                        # TypeScript type definitions
+└── cdk/                              # AWS Infrastructure
+    ├── lib/
+    │   ├── cdk-stack.ts              # Core infrastructure
+    │   ├── pipeline-stack.ts         # CI/CD pipeline
+    │   └── config.ts                 # Environment configuration
+    └── bin/cdk.ts                    # CDK app entry point
 ```
 
 ## Contributing
@@ -153,7 +154,7 @@ spaceweather-news/
 
 - 📋 [**Requirements**](Requirements.md) - Technical specifications and architecture
 - 🚀 [**Space Weather Roadmap**](SPACE-WEATHER-ROADMAP.md) - Development phases and planned features
-- 🔐 [**Authentication Setup**](docs/AUTHENTICATION.md) - AWS Cognito and NextAuth configuration
+- 🔐 [**Authentication Status**](docs/AUTHENTICATION.md) - Current authentication approach (simplified)
 - 🚀 [**CI/CD Pipeline**](docs/CI-CD.md) - GitHub Actions and deployment workflows
 - 🔧 [**API Documentation**](nextjs-app/app/api/) - Available endpoints and usage
 
