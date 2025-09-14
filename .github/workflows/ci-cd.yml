@@ -229,7 +229,7 @@ jobs:
       run: |
         cd cdk
         pnpm build
-        pnpm exec cdk deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true -c repo-owner=psimin -c repo-name=tutorial-1
+        pnpm exec cdk deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true -c repo-owner=CaptainCode7 -c repo-name=spaceweather-news
       env:
         CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
