@@ -8,6 +8,17 @@ node_modules/
 */.next/
 */build/
 
+# CDK
+cdk.out/
+*/cdk.out/
+*.js
+*.d.ts
+!jest.config.js
+!next.config.js
+!postcss.config.js
+!tailwind.config.js
+!eslint.config.js
+
 # Environment files
 .env
 .env.local
@@ -20,9 +31,11 @@ node_modules/
 */.env.staging
 */.env.development
 
-# AWS CDK
-cdk.out/
-*/cdk.out/
+# Package manager
+package-lock.json
+*/package-lock.json
+yarn.lock
+*/yarn.lock
 
 # Logs
 *.log
@@ -30,6 +43,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
 # IDE
 .vscode/
@@ -44,3 +58,14 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Testing
+coverage/
+*/coverage/
+.nyc_output
+*/test-results/
+*/playwright-report/
+
+# Cache directories
+.turbo/
+.eslintcache
