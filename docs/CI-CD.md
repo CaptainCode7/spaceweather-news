@@ -72,7 +72,7 @@ AWS_SECRET_ACCESS_KEY      # AWS secret access key
 Add these to your repository settings:
 
 ```
-AWS_REGION                 # AWS region (e.g., us-east-1)
+AWS_REGION                 # AWS region (e.g., us-east-2)
 AWS_ACCOUNT_ID            # 12-digit AWS account ID
 ```
 
