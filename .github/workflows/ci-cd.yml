@@ -107,7 +107,7 @@ jobs:
         cd cdk
         export ENVIRONMENT=development
         pnpm build
-        pnpm run cdk -- deploy CdkStack --require-approval never
+        pnpm run deploy:stack
       env:
         CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
@@ -148,7 +148,7 @@ jobs:
         cd cdk
         export ENVIRONMENT=staging
         pnpm build
-        pnpm run cdk -- deploy CdkStack --require-approval never
+        pnpm run deploy:stack
       env:
         CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
@@ -189,7 +189,7 @@ jobs:
         cd cdk
         export ENVIRONMENT=production
         pnpm build
-        pnpm run cdk -- deploy CdkStack --require-approval never
+        pnpm run deploy:stack
       env:
         CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
@@ -229,7 +229,7 @@ jobs:
       run: |
         cd cdk
         pnpm build
-        pnpm run cdk -- deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true -c repo-owner=psimin -c repo-name=tutorial-1
+        pnpm exec cdk deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true -c repo-owner=psimin -c repo-name=tutorial-1
       env:
         CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
