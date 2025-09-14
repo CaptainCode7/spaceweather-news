@@ -5,8 +5,10 @@ import { getConfig } from '../lib/config';
 
 const app = new cdk.App();
 
-// Get the environment from context or default to development
-const environment = app.node.tryGetContext('environment') || 'development';
+// Resolve deployment environment from ENVIRONMENT/NODE_ENV or cdk context
+const envFromProcess = process.env.ENVIRONMENT || process.env.NODE_ENV;
+const envFromContext = app.node.tryGetContext('environment') || app.node.tryGetContext('env');
+const environment = (envFromProcess || envFromContext || 'development').toString();
 const config = getConfig(environment);
 
 new CdkStack(app, 'CdkStack', {

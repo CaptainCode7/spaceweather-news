@@ -27,8 +27,6 @@ export class SpaceweatherStage extends Stage {
         // Deploy API Stack with auth integration
         new CdkStack(this, "ApiStack", {
             config,
-            userPool: authStack.userPool,
-            stackName: `spaceweather-api-${config.environment}`,
         });
     }
 }

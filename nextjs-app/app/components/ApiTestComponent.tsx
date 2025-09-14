@@ -22,11 +22,10 @@ export default function ApiTestComponent() {
                 throw new Error("API URL not configured");
             }
 
+            // Note: Do NOT set Content-Type on a GET. That triggers a CORS preflight (OPTIONS)
+            // which will fail unless the API explicitly supports it. Keep this a simple request.
             const response = await fetch(`${apiUrl}/hello`, {
                 cache: "no-store",
-                headers: {
-                    "Content-Type": "application/json",
-                },
             });
 
             if (!response.ok) {

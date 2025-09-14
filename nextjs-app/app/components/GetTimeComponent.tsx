@@ -26,11 +26,9 @@ export default function GetTimeComponent() {
         }
 
         try {
+            // Avoid setting headers on GET to prevent CORS preflight
             const response = await fetch(`${apiUrl}/time`, {
                 cache: "no-store",
-                headers: {
-                    "Content-Type": "application/json",
-                },
             });
 
             if (!response.ok) {
