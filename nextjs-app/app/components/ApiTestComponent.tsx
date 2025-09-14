@@ -6,10 +6,6 @@ interface ApiResponse {
     message: string;
 }
 
-interface ApiError {
-    error: string;
-}
-
 export default function ApiTestComponent() {
     const [data, setData] = useState<ApiResponse | null>(null);
     const [error, setError] = useState<string | null>(null);

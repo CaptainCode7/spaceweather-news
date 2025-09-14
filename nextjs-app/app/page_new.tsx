@@ -37,7 +37,7 @@ export default function HomePage() {
                         </h2>
                         <p className="text-slate-300 mb-6">
                             Monitor real-time solar activity, geomagnetic storms, and space weather conditions
-                            that affect Earth's technology and communications.
+                            that affect Earth&apos;s technology and communications.
                         </p>
                         <div className="space-y-3 mb-6">
                             <div className="flex items-center gap-2 text-sm text-slate-400">
