@@ -1,6 +1,12 @@
 import ApiTestComponent from "./components/ApiTestComponent";
 import GetTimeComponent from "./components/GetTimeComponent";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Solar News | Real-time Space Weather Monitoring",
+    description: "Monitor real-time space weather conditions, solar activity, and geomagnetic storms with our interactive dashboard and API testing interface.",
+};
 
 export default function HomePage() {
     const api = process.env.NEXT_PUBLIC_API_URL; // set after CDK deploy
