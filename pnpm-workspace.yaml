@@ -1,0 +1,8 @@
+packages:
+  - 'nextjs-app'
+  - 'cdk'
+
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - sharp
+  - unrs-resolver

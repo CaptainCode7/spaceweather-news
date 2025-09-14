@@ -1,0 +1,34 @@
+{
+    "name": "tutorial-1",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "build": "pnpm -r build",
+        "build:nextjs": "pnpm --filter nextjs-app build",
+        "build:nextjs:webpack": "pnpm --filter nextjs-app build:webpack",
+        "build:cdk": "pnpm --filter cdk build",
+        "dev": "pnpm --filter nextjs-app dev",
+        "start": "pnpm --filter nextjs-app start",
+        "lint": "pnpm -r lint",
+        "test": "pnpm -r test",
+        "cdk:synth": "pnpm --filter cdk synth",
+        "cdk:deploy": "pnpm --filter cdk run deploy",
+        "cdk:destroy": "pnpm --filter cdk destroy",
+        "cdk:deploy:dev": "cross-env ENVIRONMENT=development pnpm cdk:deploy",
+        "cdk:deploy:staging": "cross-env ENVIRONMENT=staging pnpm cdk:deploy",
+        "cdk:deploy:prod": "cross-env ENVIRONMENT=production pnpm cdk:deploy",
+        "cdk:deploy:pipeline": "pnpm --filter cdk cdk deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true",
+        "install:all": "pnpm install",
+        "test-and-deploy": "pnpm test && pnpm cdk:deploy",
+        "deploy": "pnpm cdk:deploy",
+        "diff": "pnpm --filter cdk diff",
+        "validate": "pnpm test && pnpm --filter cdk synth",
+        "bootstrap": "pnpm --filter cdk cdk bootstrap"
+    },
+    "devDependencies": {
+        "pnpm": "^9.0.0"
+    },
+    "dependencies": {
+        "cross-env": "^10.0.0"
+    }
+}
