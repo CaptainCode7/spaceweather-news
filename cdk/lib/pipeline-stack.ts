@@ -6,6 +6,7 @@ import { AuthStack } from "./auth-stack";
 import { CdkStack } from "./cdk-stack";
 import { AppConfig, getConfig } from "./config";
 
+
 export interface PipelineStackProps extends StackProps {
     repoOwner: string;
     repoName: string;
@@ -145,6 +146,9 @@ export class PipelineStack extends Stack {
                 ],
             }
         );
+
+        // Build the pipeline before accessing synthProject
+        pipeline.buildPipeline();
 
         // Grant necessary permissions to the pipeline
         const pipelineRole = pipeline.synthProject.role;
