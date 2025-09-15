@@ -25,10 +25,12 @@ const deployPipeline = app.node.tryGetContext('deploy-pipeline');
 if (deployPipeline && `${deployPipeline}`.toLowerCase() === 'true') {
   const repoOwner = app.node.tryGetContext('repo-owner') || process.env.GITHUB_REPOSITORY?.split('/')[0] || 'CaptainCode7';
   const repoName = app.node.tryGetContext('repo-name') || process.env.GITHUB_REPOSITORY?.split('/')[1] || 'spaceweather-news';
+  const connectionArn = (app.node.tryGetContext('connection-arn') as string | undefined) || process.env.CODESTAR_CONNECTION_ARN;
 
   new PipelineStack(app, 'SpaceweatherPipelineStack', {
     repoOwner,
     repoName,
+    connectionArn,
     env: {
       account: config.aws.account,
       region: config.aws.region,

@@ -10,6 +10,8 @@ export interface PipelineStackProps extends StackProps {
     repoOwner: string;
     repoName: string;
     branch?: string;
+    /** Optional CodeStar Connection ARN for GitHub source. If omitted, falls back to legacy GitHub OAuth token in Secrets Manager. */
+    connectionArn?: string;
 }
 
 export class SpaceweatherStage extends Stage {
@@ -35,13 +37,15 @@ export class PipelineStack extends Stack {
     constructor(scope: Construct, id: string, props: PipelineStackProps) {
         super(scope, id, props);
 
-        const { repoOwner, repoName, branch = "main" } = props;
+        const { repoOwner, repoName, branch = "main", connectionArn } = props;
 
         // Create the pipeline
         const pipeline = new pipelines.CodePipeline(this, "Pipeline", {
             pipelineName: "SpaceweatherPipeline",
             synth: new pipelines.ShellStep("Synth", {
-                input: pipelines.CodePipelineSource.gitHub(`${repoOwner}/${repoName}`, branch),
+                input: connectionArn
+                    ? pipelines.CodePipelineSource.connection(`${repoOwner}/${repoName}`, branch, { connectionArn })
+                    : pipelines.CodePipelineSource.gitHub(`${repoOwner}/${repoName}`, branch),
                 commands: [
                     "npm install -g pnpm",
                     "pnpm install",
@@ -63,8 +67,8 @@ export class PipelineStack extends Stack {
             new SpaceweatherStage(this, "Development", {
                 config: devConfig,
                 env: {
-                    account: devConfig.aws.account,
-                    region: devConfig.aws.region,
+                    account: Stack.of(this).account,
+                    region: Stack.of(this).region,
                 },
             }),
             {
@@ -72,7 +76,7 @@ export class PipelineStack extends Stack {
                     new pipelines.ShellStep("PreDev", {
                         commands: [
                             "echo 'Deploying to Development environment'",
-                            "cd nextjs-app && pnpm install && pnpm build:webpack",
+                            "cd nextjs-app && pnpm install && pnpm build",
                         ],
                     }),
                 ],
@@ -93,8 +97,8 @@ export class PipelineStack extends Stack {
             new SpaceweatherStage(this, "Staging", {
                 config: stagingConfig,
                 env: {
-                    account: stagingConfig.aws.account,
-                    region: stagingConfig.aws.region,
+                    account: Stack.of(this).account,
+                    region: Stack.of(this).region,
                 },
             }),
             {
@@ -121,8 +125,8 @@ export class PipelineStack extends Stack {
             new SpaceweatherStage(this, "Production", {
                 config: prodConfig,
                 env: {
-                    account: prodConfig.aws.account,
-                    region: prodConfig.aws.region,
+                    account: Stack.of(this).account,
+                    region: Stack.of(this).region,
                 },
             }),
             {
