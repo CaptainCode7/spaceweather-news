@@ -4,6 +4,61 @@ A practical, step-by-step guide to how your CI/CD pipeline works, how to run it,
 
 ---
 
+## 🔐 Setting Up GitHub Token for AWS CDK Pipeline
+
+To allow AWS CodePipeline to access your GitHub repository, you must create a GitHub personal access token and store it in AWS Secrets Manager.
+
+### 1. Create a GitHub Personal Access Token
+
+- Go to [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens).
+- Click **"Generate new token"** (classic).
+- Name it (e.g., `aws-cdk-pipeline`), select scopes:
+   - `repo`
+   - `admin:repo_hook`
+   - `workflow`
+- Click **Generate token** and copy the token (you won’t see it again).
+
+### 2. Store the Token in AWS Secrets Manager
+
+- Go to the [AWS Secrets Manager Console](https://console.aws.amazon.com/secretsmanager/).
+- Click **Store a new secret**.
+- Choose **Other type of secret**.
+- Select the **Plaintext** tab and paste your token (just the token string, no JSON).
+- Name the secret exactly:
+   ```
+   github-token
+   ```
+- Click **Next** and finish the wizard.
+
+---
+
+## 🚀 Deploying and Redeploying the CDK Pipeline
+
+### Deploy from Your Local Machine
+
+```powershell
+cd cdk
+pnpm install
+pnpm build
+pnpm cdk deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true
+```
+
+### Redeploy via GitHub Actions
+
+To trigger a redeploy of the pipeline from GitHub Actions, push a commit to `main` with `[deploy-pipeline]` in the commit message:
+
+```powershell
+git commit --allow-empty -m "[deploy-pipeline] Redeploy pipeline"
+git push origin main
+```
+
+- This will run the "Deploy CDK Pipeline" job in GitHub Actions.
+
+**Tip:**
+If you see errors about GitHub credentials or webhooks, double-check your token format in Secrets Manager (it must be plain text, not JSON) and that the token has the correct scopes.
+
+---
+
 ## Overview
 
 This repository uses GitHub Actions to automatically:
