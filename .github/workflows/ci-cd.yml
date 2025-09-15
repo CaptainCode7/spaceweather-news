@@ -9,6 +9,9 @@ on:
 env:
   NODE_VERSION: '20'
   PNPM_VERSION: '9'
+  AWS_REGION: 'us-east-2'
+  # Hard-coded AWS account ID to ensure consistency
+  AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
 
 jobs:
   test:
@@ -65,6 +68,10 @@ jobs:
         cd cdk
         pnpm build
         pnpm synth
+      env:
+        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
+        ENVIRONMENT: development
 
   deploy-dev:
     name: Deploy to Development
@@ -95,17 +102,17 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ vars.AWS_REGION }}
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Deploy to Development
       run: |
         cd cdk
         export ENVIRONMENT=development
         pnpm build
-        pnpm deploy --require-approval never
+        pnpm run deploy:stack
       env:
-        CDK_DEFAULT_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
-        CDK_DEFAULT_REGION: ${{ vars.AWS_REGION }}
+        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
 
   deploy-staging:
     name: Deploy to Staging
@@ -136,17 +143,17 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ vars.AWS_REGION }}
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Deploy to Staging
       run: |
         cd cdk
         export ENVIRONMENT=staging
         pnpm build
-        pnpm deploy --require-approval never
+        pnpm run deploy:stack
       env:
-        CDK_DEFAULT_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
-        CDK_DEFAULT_REGION: ${{ vars.AWS_REGION }}
+        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
 
   deploy-prod:
     name: Deploy to Production
@@ -177,17 +184,17 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ vars.AWS_REGION }}
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Deploy to Production
       run: |
         cd cdk
         export ENVIRONMENT=production
         pnpm build
-        pnpm deploy --require-approval never
+        pnpm run deploy:stack
       env:
-        CDK_DEFAULT_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
-        CDK_DEFAULT_REGION: ${{ vars.AWS_REGION }}
+        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
 
   deploy-pipeline:
     name: Deploy CDK Pipeline
@@ -218,13 +225,16 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ vars.AWS_REGION }}
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Deploy Pipeline Stack
       run: |
         cd cdk
         pnpm build
-        pnpm cdk deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true -c repo-owner=CaptainCode7 -c repo-name=tutorial-1
+        pnpm cdk deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true -c repo-owner=CaptainCode7 -c repo-name=spaceweather-news
       env:
-        CDK_DEFAULT_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
-        CDK_DEFAULT_REGION: ${{ vars.AWS_REGION }}
+        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
+
+# Trigger deployment: fixed all YAML indentation issues - testing deployment now
+# TEST
