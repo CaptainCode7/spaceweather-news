@@ -10,6 +10,7 @@ export interface AppConfig {
         domainName: string;
         certificateArn: string;
     };
+    // NOTE: Authentication has been removed from the project. The 'auth' config is kept for backward compatibility only and is not used in deployment. See docs/AUTHENTICATION.md for details.
     auth: {
         userPoolName: string;
         userPoolClientName: string;

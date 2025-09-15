@@ -1,13 +1,15 @@
 # Space Weather Features Roadmap
 
+This document outlines the current and planned features for the Space Weather Monitoring System. It serves as a learning guide and development plan.
+
 ## Current Implementation (v1.0)
 
 ### ✅ Core Infrastructure
-- **Authentication System** — AWS Cognito with NextAuth integration
-- **Multi-Environment Setup** — Development, staging, production configurations
-- **CI/CD Pipeline** — Automated testing and deployment with GitHub Actions
-- **Serverless Backend** — AWS Lambda + API Gateway for scalable APIs
-- **Protected Routes** — Member-only areas for personalized content
+- **~~Authentication System~~** — ~~AWS Cognito with NextAuth integration~~ (Removed for simplification - see AUTHENTICATION.md)
+- **Multi-Environment Setup** — Development, staging, production configurations (different settings for each phase)
+- **CI/CD Pipeline** — Automated testing and deployment with GitHub Actions (saves time and reduces errors)
+- **Serverless Backend** — AWS Lambda + API Gateway for scalable APIs (pay only for what you use)
+- **~~Protected Routes~~** — ~~Member-only areas for personalized content~~ (Removed with authentication)
 
 ### ✅ User Experience
 - **Responsive Design** — Mobile-friendly space weather dashboard
@@ -36,6 +38,12 @@
 - **Aviation Radiation** — Polar route radiation exposure monitoring
 
 ### 📊 Data Visualization
+
+# Getting Help
+
+- If you get stuck, check the [Glossary](docs/GLOSSARY.md) for definitions.
+- For troubleshooting, see the "Troubleshooting" section in [docs/CI-CD.md](docs/CI-CD.md).
+- You can also open an issue on GitHub or ask for help in the project discussions.
 - **Interactive Charts** — Real-time plots of space weather parameters
 - **Historical Data** — Long-term trends and solar cycle visualization
 - **3D Solar System** — Interactive model showing CME propagation

@@ -1,31 +1,40 @@
 # Space Weather Monitoring System - Technical Requirements
 
+This document outlines the technical requirements and features of the Space Weather Monitoring System. It's designed to help beginners understand what components make up the application.
+
 ## Current Implementation Status (✅ Completed Features)
 
 ### Core Infrastructure
-- **Authentication System**: AWS Cognito with NextAuth v5 integration
-- **Multi-Environment Setup**: Development, staging, and production configurations
-- **Serverless Backend**: AWS Lambda functions with API Gateway
-- **Database**: DynamoDB for scalable NoSQL storage
-- **CI/CD Pipeline**: GitHub Actions with automated testing and deployment
-- **Infrastructure as Code**: AWS CDK for reproducible deployments
-- **Monitoring & Logging**: CloudWatch integration for application insights
-- **Security**: IAM roles, CORS policies, and environment-based access controls
+- **~~Authentication System~~**: ~~AWS Cognito with NextAuth v5 integration~~ (Removed for simplification - see AUTHENTICATION.md)
+- **Multi-Environment Setup**: Development, staging, and production configurations (different settings for each phase)
+- **Serverless Backend**: AWS Lambda functions with API Gateway (functions that run only when needed)
+- **Database**: DynamoDB for scalable NoSQL storage (flexible data storage that can grow with your needs)
+- **CI/CD Pipeline**: GitHub Actions with automated testing and deployment (automatically tests and deploys your code)
+- **Infrastructure as Code**: AWS CDK for reproducible deployments (infrastructure defined as TypeScript code)
+- **Monitoring & Logging**: CloudWatch integration for application insights (tracks how your app is performing)
+- **Security**: IAM roles, CORS policies, and environment-based access controls (keeps your app and data safe)
 
 ### User Experience Features  
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Protected Routes**: Member-only areas with session management
-- **Authentication Flow**: Email verification, password reset, and secure login
-- **Error Handling**: Graceful error pages and user feedback systems
-- **Accessibility**: WCAG 2.1 AA compliance for inclusive design
+- **Responsive Design**: Mobile-first approach with Tailwind CSS (looks good on phones, tablets, and desktops)
+- **~~Protected Routes~~**: ~~Member-only areas with session management~~ (Removed with authentication)
+- **~~Authentication Flow~~**: ~~Email verification, password reset, and secure login~~ (Removed with authentication)
+- **Error Handling**: Graceful error pages and user feedback systems (helpful messages when something goes wrong)
+- **Accessibility**: WCAG 2.1 AA compliance for inclusive design (usable by people with disabilities)
 
 ### Technical Architecture
-- **Frontend**: Next.js 15 with App Router and TypeScript
-- **Styling**: Tailwind CSS for responsive design
-- **Authentication**: NextAuth v5 (beta) for App Router compatibility
-- **Cloud Infrastructure**: AWS (Lambda, API Gateway, Cognito, DynamoDB)
-- **Deployment**: Multi-stage pipeline with manual production approvals
-- **Environment Management**: Type-safe configuration across environments
+- **Frontend**: Next.js with App Router and TypeScript (modern web framework with type safety)
+- **Styling**: Tailwind CSS for responsive design (utility-first CSS framework)
+- **~~Authentication~~**: ~~NextAuth v5 (beta) for App Router compatibility~~ (Removed - see AUTHENTICATION.md)
+- **Cloud Infrastructure**: AWS (Lambda, API Gateway, ~~Cognito~~, DynamoDB) (scalable cloud services)
+- **Deployment**: Multi-stage pipeline with manual production approvals (safe deployment process)
+- **Environment Management**: Type-safe configuration across environments (prevents configuration mistakes)
+
+
+# Getting Help
+
+- If you get stuck, check the [Glossary](docs/GLOSSARY.md) for definitions.
+- For troubleshooting, see the "Troubleshooting" section in [docs/CI-CD.md](docs/CI-CD.md).
+- You can also open an issue on GitHub or ask for help in the project discussions.
 
 ## Planned Space Weather Features (🚀 Next Phase)
 
