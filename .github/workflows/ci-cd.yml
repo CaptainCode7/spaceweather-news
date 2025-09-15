@@ -109,7 +109,7 @@ jobs:
         cd cdk
         export ENVIRONMENT=development
         pnpm build
-        pnpm run deploy:stack
+        pnpm run deploy
       env:
         CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
@@ -150,7 +150,7 @@ jobs:
         cd cdk
         export ENVIRONMENT=staging
         pnpm build
-        pnpm run deploy:stack
+        pnpm run deploy
       env:
         CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
@@ -191,7 +191,7 @@ jobs:
         cd cdk
         export ENVIRONMENT=production
         pnpm build
-        pnpm run deploy:stack
+        pnpm run deploy
       env:
         CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
