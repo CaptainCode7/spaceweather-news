@@ -10,6 +10,8 @@ env:
   NODE_VERSION: '20'
   PNPM_VERSION: '9'
   AWS_REGION: 'us-east-2'
+  # Hard-coded AWS account ID to ensure consistency
+  AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
 
 jobs:
   test:
@@ -67,7 +69,7 @@ jobs:
         pnpm build
         pnpm synth
       env:
-        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
         ENVIRONMENT: development
 
@@ -109,7 +111,7 @@ jobs:
         pnpm build
         pnpm run deploy:stack
       env:
-        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
 
   deploy-staging:
@@ -150,7 +152,7 @@ jobs:
         pnpm build
         pnpm run deploy:stack
       env:
-        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
 
   deploy-prod:
@@ -191,7 +193,7 @@ jobs:
         pnpm build
         pnpm run deploy:stack
       env:
-        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
 
   deploy-pipeline:
@@ -229,10 +231,7 @@ jobs:
       run: |
         cd cdk
         pnpm build
-        EXTRA=""
-        if [ -n "$CODESTAR_CONNECTION_ARN" ]; then EXTRA="-c connection-arn=$CODESTAR_CONNECTION_ARN"; fi
-        pnpm exec cdk deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true -c repo-owner=CaptainCode7 -c repo-name=spaceweather-news $EXTRA
+        pnpm cdk deploy SpaceweatherPipelineStack --require-approval never -c deploy-pipeline=true -c repo-owner=CaptainCode7 -c repo-name=spaceweather-news
       env:
-        CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID }}
+        CDK_DEFAULT_ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
         CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
-        CODESTAR_CONNECTION_ARN: ${{ secrets.CODESTAR_CONNECTION_ARN }}

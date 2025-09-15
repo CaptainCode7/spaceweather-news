@@ -1,62 +1,239 @@
 # CI/CD Pipeline Documentation
 
-This document describes the CI/CD pipeline for the Spaceweather News application.
+This document describes the CI/CD (Continuous Integration/Continuous Deployment) pipeline for the Spaceweather News application.
+A CI/CD pipeline automates the process of testing and deploying your code whenever changes are made. This saves time and reduces errors compared to manual deployments.
+
+The CI/CD pipeline is implemented using GitHub Actions and provides:
+- **Automated testing and linting** - Checks code quality automatically
+- **Multi-environment deployments** (dev, staging, production) - Deploys to different environments based on which branch you push to
+- **Manual approval gates for production** - Requires human approval before deploying to production
+- **CDK Pipeline option for advanced workflows** - More powerful AWS-native pipeline option
+
+## Pipeline Structure
+### Workflow Triggers
+
+The pipeline is triggered by different Git actions:
+- **Push to `develop` branch**: Automatically deploys to development environment
+  - Example: When you run `git push origin develop`
+- **Push to `main` branch**: Automatically deploys to staging, then waits for approval before deploying to production
+  - Example: After a pull request is merged to main
+- **Pull requests to `main`**: Only runs tests to verify code quality, doesn't deploy
+  - Example: When you create a PR from develop to main
+- **Commit message contains `[deploy-pipeline]`**: Special trigger to deploy the AWS CDK Pipeline
+  - Example: `git commit -m "Update infrastructure [deploy-pipeline]"`
+
+### Jobs (Pipeline Steps)
+#### 1. Test and Lint (`test`)
+This job verifies your code quality and runs on every push and PR:
+- **Code checkout** - Gets the latest code from GitHub
+- **Node.js and pnpm setup** - Prepares the environment
+- **Dependencies installation with caching** - Gets all required packages (faster with cache)
+- **Linting (ESLint)** - Checks for code style and common errors
+- **Unit tests (Jest)** - Runs automated tests to verify functionality
+- **Next.js build** - Makes sure the frontend builds correctly
+- **CDK synthesis** - Validates the AWS infrastructure code
+#### 2. Deploy to Development (`deploy-dev`)
+This job deploys your code to a development environment when you push to the `develop` branch:
+- Deploys to AWS development environment
+- No manual approval required (happens automatically)
+- Uses development configuration (less restrictive settings)
+
+#### 3. Deploy to Staging (`deploy-staging`)
+#### 4. Deploy to Production (`deploy-prod`)
+This job deploys your code to the production environment after staging is deployed:
+- **Requires manual approval** - Someone must approve the deployment
+- Deploys to AWS production environment
+- Uses production configuration (strict settings)
+
+#### 5. Deploy CDK Pipeline (`deploy-pipeline`)
+## Environment Configuration
+
+### Authentication Note
+
+> **Important**: As described in the AUTHENTICATION.md document, authentication features have been removed from the project to simplify the architecture. While the configuration still references auth components, they are currently inactive and will not be deployed.
+### GitHub Secrets Required
+
+Add these to your repository settings:
+
+```
+AWS_ACCESS_KEY_ID          # AWS access key for deployment
+AWS_SECRET_ACCESS_KEY      # AWS secret access key
+```
+
+### GitHub Variables Required
+Add these to your repository settings:
+
+```
+AWS_REGION                 # AWS region (e.g., us-east-2)
+AWS_ACCOUNT_ID            # 12-digit AWS account ID
+```
+
+### Environment-Specific Configuration
+Each environment uses different configurations defined in `cdk/lib/config.ts`:
+
+#### Development
+...
+### Manual Deployment
+
+You can deploy manually using these commands:
+
+```bash
+# Deploy to development
+pnpm cdk:deploy:dev
+
+# Deploy to staging
+pnpm cdk:deploy:staging
+
+# Deploy to production (with confirmation)
+pnpm cdk:deploy:prod
+
+# Deploy CDK Pipeline
+pnpm cdk:deploy:pipeline
+```
+
+### Bootstrap (One-time setup)
+
+```bash
+# Bootstrap CDK in your AWS account/region
+pnpm bootstrap
+```
+
+## Approval Process
+
+### Production Deployments
+Production deployments require manual approval:
+
+1. Staging deployment completes successfully
+2. GitHub creates a pending approval request
+3. Authorized team members can review and approve
+4. Production deployment proceeds after approval
+
+### Approval Configuration
+## CDK Pipeline (Advanced)
+
+The CDK Pipeline provides a more sophisticated AWS-native CI/CD solution:
+
+### Features
+...
+## Monitoring and Alerting
+
+### GitHub Actions Monitoring
+
+- View workflow runs in the Actions tab
+- Configure notifications for failed deployments
+- Monitor deployment frequency and success rates
+
+### AWS Monitoring
+...
+## Troubleshooting
+
+### Common Issues
+
+#### 1. AWS Credentials
+```
+Error: AWS credentials not configured
+```
+**Solution**: Check GitHub secrets are properly set
+
+#### 2. CDK Bootstrap
+```
+Error: Bootstrap stack not found
+```
+**Solution**: Run `pnpm bootstrap` first
+
+#### 3. Permission Denied
+```
+Error: Access denied for operation
+```
+**Solution**: Check IAM permissions for deployment role
+
+#### 4. Environment Variables
+```
+Error: Required environment variable not set
+```
+**Solution**: Check GitHub variables configuration
+
+### Debug Steps
+...
+### Getting Help
+
+- Check deployment logs in GitHub Actions
+- Review AWS CloudFormation stack events
+- Enable CDK debug mode: `CDK_DEBUG=true`
+- Use AWS CLI to verify resource states
+- Check the [Glossary](GLOSSARY.md) for definitions
+- If you get stuck, open an issue on GitHub or ask in project discussions
+# CI/CD Pipeline Documentation
+
+This document describes the CI/CD (Continuous Integration/Continuous Deployment) pipeline for the Spaceweather News application.
 
 ## Overview
 
+A CI/CD pipeline automates the process of testing and deploying your code whenever changes are made. This saves time and reduces errors compared to manual deployments.
+
 The CI/CD pipeline is implemented using GitHub Actions and provides:
 
-- Automated testing and linting
-- Multi-environment deployments (dev, staging, production)
-- Manual approval gates for production
-- CDK Pipeline option for advanced workflows
+- **Automated testing and linting** - Checks code quality automatically
+- **Multi-environment deployments** (dev, staging, production) - Deploys to different environments based on which branch you push to
+- **Manual approval gates for production** - Requires human approval before deploying to production
+- **CDK Pipeline option for advanced workflows** - More powerful AWS-native pipeline option
 
 ## Pipeline Structure
 
 ### Workflow Triggers
 
-- **Push to `develop`**: Deploys to development environment
-- **Push to `main`**: Deploys to staging, then production (with approval)
-- **Pull requests to `main`**: Runs tests only
-- **Commit message contains `[deploy-pipeline]`**: Deploys CDK Pipeline
+The pipeline is triggered by different Git actions:
 
-### Jobs
+- **Push to `develop` branch**: Automatically deploys to development environment
+  - Example: When you run `git push origin develop`
+- **Push to `main` branch**: Automatically deploys to staging, then waits for approval before deploying to production
+  - Example: After a pull request is merged to main
+- **Pull requests to `main`**: Only runs tests to verify code quality, doesn't deploy
+  - Example: When you create a PR from develop to main
+- **Commit message contains `[deploy-pipeline]`**: Special trigger to deploy the AWS CDK Pipeline
+  - Example: `git commit -m "Update infrastructure [deploy-pipeline]"`
+
+### Jobs (Pipeline Steps)
 
 #### 1. Test and Lint (`test`)
-Runs on every push and PR:
-- Code checkout
-- Node.js and pnpm setup
-- Dependencies installation with caching
-- Linting (ESLint)
-- Unit tests (Jest)
-- Next.js build
-- CDK synthesis
+This job verifies your code quality and runs on every push and PR:
+- **Code checkout** - Gets the latest code from GitHub
+- **Node.js and pnpm setup** - Prepares the environment
+- **Dependencies installation with caching** - Gets all required packages (faster with cache)
+- **Linting (ESLint)** - Checks for code style and common errors
+- **Unit tests (Jest)** - Runs automated tests to verify functionality
+- **Next.js build** - Makes sure the frontend builds correctly
+- **CDK synthesis** - Validates the AWS infrastructure code
 
 #### 2. Deploy to Development (`deploy-dev`)
-Runs on pushes to `develop` branch:
+This job deploys your code to a development environment when you push to the `develop` branch:
 - Deploys to AWS development environment
-- No manual approval required
-- Uses development configuration
+- No manual approval required (happens automatically)
+- Uses development configuration (less restrictive settings)
 
 #### 3. Deploy to Staging (`deploy-staging`)
-Runs on pushes to `main` branch:
+This job deploys your code to a staging environment when you push to the `main` branch:
 - Deploys to AWS staging environment
-- No manual approval required
-- Uses staging configuration
+- No manual approval required (happens automatically)
+- Uses staging configuration (similar to production)
 
 #### 4. Deploy to Production (`deploy-prod`)
-Runs after successful staging deployment:
-- **Requires manual approval**
+This job deploys your code to the production environment after staging is deployed:
+- **Requires manual approval** - Someone must approve the deployment
 - Deploys to AWS production environment
-- Uses production configuration
+- Uses production configuration (strict settings)
 
 #### 5. Deploy CDK Pipeline (`deploy-pipeline`)
-Runs when commit message contains `[deploy-pipeline]`:
+This special job deploys an AWS-native pipeline when you include `[deploy-pipeline]` in your commit message:
 - Deploys the CDK Pipeline stack
-- Creates automated AWS CodePipeline
+- Creates automated AWS CodePipeline (AWS's pipeline service)
 - One-time setup for advanced workflows
 
 ## Environment Configuration
+
+### Authentication Note
+
+> **Important**: As described in the AUTHENTICATION.md document, authentication features have been removed from the project to simplify the architecture. While the configuration still references auth components, they are currently inactive and will not be deployed.
 
 ### GitHub Secrets Required
 
